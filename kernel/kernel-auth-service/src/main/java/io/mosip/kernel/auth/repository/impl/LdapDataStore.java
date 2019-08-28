@@ -303,7 +303,7 @@ public class LdapDataStore implements DataStore {
 
 	private Collection<String> getUserRoles(Dn userdn, LdapConnection connection) {
 		try {
-			Dn searchBase = new Dn("ou=roles,c=morocco");
+			Dn searchBase = new Dn("ou=roles,c=mycountry");
 			String searchFilter = "(&(objectClass=organizationalRole)(roleOccupant=" + userdn + "))";
 
 			EntryCursor rolesData = connection.search(searchBase, searchFilter, SearchScope.ONELEVEL);
@@ -332,11 +332,11 @@ public class LdapDataStore implements DataStore {
 	}
 
 	private Dn createUserDn(String userName) throws LdapInvalidDnException {
-		return new Dn("uid=" + userName + ",ou=people,c=morocco");
+		return new Dn("uid=" + userName + ",ou=people,c=mycountry");
 	}
 
 	private Dn createRoleDn(String role) throws LdapInvalidDnException {
-		return new Dn("cn=" + role + ",ou=roles,c=morocco");
+		return new Dn("cn=" + role + ",ou=roles,c=mycountry");
 	}
 
 	@Override
@@ -347,7 +347,7 @@ public class LdapDataStore implements DataStore {
 		try {
 			connection = createAnonymousConnection();
 			List<Role> roleDtos = new ArrayList<>();
-			Dn searchBase = new Dn("ou=roles,c=morocco");
+			Dn searchBase = new Dn("ou=roles,c=mycountry");
 			String searchFilter = "(objectClass=organizationalRole)";
 
 			rolesData = connection.search(searchBase, searchFilter, SearchScope.ONELEVEL);
@@ -416,7 +416,7 @@ public class LdapDataStore implements DataStore {
 		try
 		{
 		connection = createAnonymousConnection();
-		Dn searchBase = new Dn("ou=people,c=morocco");
+		Dn searchBase = new Dn("ou=people,c=mycountry");
 		String searchFilter = "(&(objectClass=organizationalPerson)(objectClass=inetOrgPerson))";
 		EntryCursor peoplesData = connection.search(searchBase, searchFilter, SearchScope.ONELEVEL);
 		for (Entry entry : peoplesData) {
@@ -482,7 +482,7 @@ public class LdapDataStore implements DataStore {
 			modItems[1] = new ModificationItem(DirContext.REMOVE_ATTRIBUTE,
 					new BasicAttribute(LdapConstants.PWD_FAILURE_TIME_ATTRIBUTE));
 
-			context.modifyAttributes("uid=" + userId + ",ou=people,c=morocco", modItems);
+			context.modifyAttributes("uid=" + userId + ",ou=people,c=mycountry", modItems);
 			authZResponseDto = new AuthZResponseDto();
 			authZResponseDto.setMessage("Successfully Unblocked");
 			authZResponseDto.setStatus("Sucesss");
@@ -530,7 +530,7 @@ public class LdapDataStore implements DataStore {
 				ModificationItem[] modItems = new ModificationItem[1];
 				modItems[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
 						new BasicAttribute("userPassword", newUserPassword));
-				ldapContext.modifyAttributes("uid=" + passwordDto.getUserId() + ",ou=people,c=morocco", modItems);
+				ldapContext.modifyAttributes("uid=" + passwordDto.getUserId() + ",ou=people,c=mycountry", modItems);
 				mosipUserDto.setUserPassword(new String(newUserPassword));
 				authZResponseDto = new AuthZResponseDto();
 				authZResponseDto.setMessage("Successfully changed");
@@ -580,7 +580,7 @@ public class LdapDataStore implements DataStore {
 			ModificationItem[] modItems = new ModificationItem[1];
 			modItems[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE,
 					new BasicAttribute("userPassword", newUserPassword));
-			ldapContext.modifyAttributes("uid=" + passwordDto.getUserId() + ",ou=people,c=morocco", modItems);
+			ldapContext.modifyAttributes("uid=" + passwordDto.getUserId() + ",ou=people,c=mycountry", modItems);
 			mosipUserDto.setUserPassword(new String(newUserPassword));
 			authZResponseDto = new AuthZResponseDto();
 			authZResponseDto.setMessage("Successfully the password has been reset");
@@ -628,7 +628,7 @@ public class LdapDataStore implements DataStore {
 	 */
 	private String getPassword(String userid, LdapContext ldapContext) throws Exception {
 		String encryptedPassword = null;
-		Dn searchBase = new Dn("uid=" + userid + ",ou=people,c=morocco");
+		Dn searchBase = new Dn("uid=" + userid + ",ou=people,c=mycountry");
 		SearchControls searchControls = new SearchControls();
 		searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		NamingEnumeration<SearchResult> searchResult = ldapContext.search(searchBase.getName(),
@@ -833,9 +833,9 @@ public class LdapDataStore implements DataStore {
 			while (searchResult.hasMore()) {
 				Attributes attributes = searchResult.next().getAttributes();
 				mosipUserDto.setUserId((String) attributes.get("uid").get());
-				Dn searchBase = new Dn("ou=roles,c=morocco");
+				Dn searchBase = new Dn("ou=roles,c=mycountry");
 				String searchFilter = "(&(objectClass=organizationalRole)(roleOccupant=uid="
-						+ (String) attributes.get("uid").get() + ",ou=people,c=morocco))";
+						+ (String) attributes.get("uid").get() + ",ou=people,c=mycountry))";
 				NamingEnumeration<SearchResult> searchResultRoles = context.search(searchBase.getName(), searchFilter,
 						new SearchControls());
 				Set<String> roles = new HashSet<String>();
@@ -863,7 +863,7 @@ public class LdapDataStore implements DataStore {
 
 	private NamingEnumeration<SearchResult> getUserDetail(String mobileNumber)
 			throws LdapInvalidDnException, NamingException {
-		Dn searchBase = new Dn("ou=people,c=morocco");
+		Dn searchBase = new Dn("ou=people,c=mycountry");
 		String searchFilter = "(&(objectClass=organizationalPerson)(objectClass=inetOrgPerson)(objectClass=person)(mobile="
 				+ mobileNumber + "))";
 		LdapContext context = getContext();
