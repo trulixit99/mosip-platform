@@ -9,6 +9,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -23,6 +24,7 @@ import io.mosip.registration.processor.core.token.validation.dto.TokenResponseDT
 import io.mosip.registration.processor.core.token.validation.exception.AccessDeniedException;
 import io.mosip.registration.processor.core.token.validation.exception.InvalidTokenException;
 import io.mosip.registration.processor.core.util.JsonUtil;
+
 
 @Service
 public class TokenValidator {
@@ -50,8 +52,8 @@ public class TokenValidator {
 		try {
 			URL obj = new URL(env.getProperty("TOKENVALIDATE"));
 			URLConnection urlConnection = obj.openConnection();
-			HttpsURLConnection con = (HttpsURLConnection) urlConnection;
-
+			//HttpsURLConnection con = (HttpsURLConnection) urlConnection;
+                        HttpURLConnection con = (HttpURLConnection) urlConnection;
 			con.setRequestProperty("Cookie", token);
 			con.setRequestMethod("POST");
 

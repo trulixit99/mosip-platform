@@ -3,7 +3,7 @@ package io.mosip.registration.processor.core.logger;
 import io.mosip.kernel.core.logger.spi.Logger;
 import io.mosip.kernel.logger.logback.appender.RollingFileAppender;
 import io.mosip.kernel.logger.logback.factory.Logfactory;
-
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * The Class RegProcessorLogger.
@@ -11,15 +11,18 @@ import io.mosip.kernel.logger.logback.factory.Logfactory;
  */
 public final class RegProcessorLogger {
 	
+        @Value("$(registration.processor.log_directory)")
+        private static String logfileLocation;
+
 	/** The mosip rolling file appender. */
 	private static RollingFileAppender mosipRollingFileAppender;
-	
+ 	
 	static {
 		mosipRollingFileAppender = new RollingFileAppender();
 		mosipRollingFileAppender.setAppend(true);
 		mosipRollingFileAppender.setAppenderName("fileappender");
-		mosipRollingFileAppender.setFileName("/home/logs/registrationProcessor.log");
-		mosipRollingFileAppender.setFileNamePattern("/home/logs/registrationProcessor-%d{yyyy-MM-dd}-%i.log");
+                mosipRollingFileAppender.setFileName(logfileLocation + "/registrationProcessor.log");
+                mosipRollingFileAppender.setFileNamePattern(logfileLocation + "/registrationProcessor-%d{yyyy-MM-dd}-%i.log");
 		mosipRollingFileAppender.setImmediateFlush(true);
 		mosipRollingFileAppender.setMaxFileSize("1mb");
 		mosipRollingFileAppender.setMaxHistory(3);
