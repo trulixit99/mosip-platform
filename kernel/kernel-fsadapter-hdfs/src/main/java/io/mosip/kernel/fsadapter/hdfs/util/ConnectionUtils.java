@@ -186,7 +186,8 @@ public class ConnectionUtils {
 		try {
 			configuration = new Configuration();
 			configuration.set("fs.defaultFS", nameNodeUrl);
-			configuration.set("dfs.client.use.datanode.hostname", "true");
+			//configuration.set("dfs.client.use.datanode.hostname", "true");
+			configuration.set("dfs.client.use.datanode.hostname", "false");
 			configuration.set("fs.hdfs.impl", DistributedFileSystem.class.getName());
 			configuration.set("ipc.client.connect.timeout", connectTimeout);
 			configuration.set("ipc.client.connect.max.retries.on.timeouts", maxRetries);

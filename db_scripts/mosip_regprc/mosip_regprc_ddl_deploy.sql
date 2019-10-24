@@ -17,4 +17,4 @@
 
 \ir ddl/regprc-reg_lost_uin_det.sql
 
-\ir ddl/regprc-fk.sql
+\ir ddl/regprc_fk.sql
