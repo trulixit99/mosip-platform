@@ -280,7 +280,7 @@ public class AuthController {
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
 	 */
-	@ResponseFilter
+/*	@ResponseFilter
 	@GetMapping(value = "/authorize/admin/validateToken")
 	public ResponseWrapper<MosipUserDto> validateToken(
 			@CookieValue(value = "Authorization", required = false) String token)
@@ -289,7 +289,7 @@ public class AuthController {
 		ResponseWrapper<MosipUserDto> responseWrapper = new ResponseWrapper<>();
 		responseWrapper.setResponse(mosipUserDto);
 		return responseWrapper;
-	}
+	}*/
 
 	/**
 	 * API to retry token when auth token expires
@@ -569,24 +569,24 @@ public class AuthController {
 		return responseWrapper;
 	}
 
-	/**
-	 * 
-	 * @param req
-	 *            - {@link HttpServletRequest}
-	 * @param res
-	 *            - {@link HttpServletResponse}
-	 * @return {@link ResponseWrapper}
-	 */
-	@ResponseFilter
-	@DeleteMapping(value = "/logout/user")
-	public ResponseWrapper<AuthResponseDto> logoutUser(@CookieValue(value = "Authorization", required = false) String token, HttpServletResponse res) {
-		AuthResponseDto authResponseDto = authService.logoutUser(token);
-		ResponseWrapper<AuthResponseDto> responseWrapper = new ResponseWrapper<>();
-		responseWrapper.setResponse(authResponseDto);
-		return responseWrapper;
-	}
+//	/**
+//	 * 
+//	 * @param req
+//	 *            - {@link HttpServletRequest}
+//	 * @param res
+//	 *            - {@link HttpServletResponse}
+//	 * @return {@link ResponseWrapper}
+//	 */
+//	@ResponseFilter
+//	@DeleteMapping(value = "/logout/user")
+//	public ResponseWrapper<AuthResponseDto> logoutUser(@CookieValue(value = "Authorization", required = false) String token, HttpServletResponse res) {
+//		AuthResponseDto authResponseDto = authService.logoutUser(token);
+//		ResponseWrapper<AuthResponseDto> responseWrapper = new ResponseWrapper<>();
+//		responseWrapper.setResponse(authResponseDto);
+//		return responseWrapper;
+//	}
 
-	@GetMapping(value = "/login/{redirectURI}")
+/*	@GetMapping(value = "/login/{redirectURI}")
 	public void login(@CookieValue("state") String state, @PathVariable("redirectURI") String redirectURI,
 			HttpServletResponse res) throws IOException {
 		String uri = authService.getKeycloakURI(redirectURI, state);
@@ -607,13 +607,13 @@ public class AuthController {
 		res.sendRedirect(uri);
 	}
 
-	/**
+	*//**
 	 * Gets Access token from cookie
 	 * 
 	 * @param req
 	 *            - {@link HttpServletRequest}
 	 * @return {@link String} - accessToken
-	 */
+	 *//*
 	private String getTokenFromCookie(HttpServletRequest req) {
 		Cookie[] cookies = req.getCookies();
 		String token = null;
@@ -636,15 +636,15 @@ public class AuthController {
 		return token;
 	}
 
-	/**
+	*//**
 	 * Erases Cookie from browser
 	 * 
 	 * @param cookie
 	 *            - {@link Cookie}
-	 */
+	 *//*
 	private void removeCookie(Cookie cookie) {
 		cookie.setValue("");
 		cookie.setPath("/");
 		cookie.setMaxAge(0);
-	}
+	}*/
 }

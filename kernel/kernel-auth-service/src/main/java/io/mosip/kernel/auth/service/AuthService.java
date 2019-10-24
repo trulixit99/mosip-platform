@@ -63,12 +63,12 @@ public interface AuthService extends AuthZService, AuthNService {
 	
 	public UserDetailsResponseDto getUserDetailBasedOnUserId(String appId,List<String> userIds);
 	
-	public MosipUserDto valdiateToken(String token);
-	
-	public AuthResponseDto logoutUser(String token);
-	
-	AccessTokenResponseDTO loginRedirect(String state, String sessionState, String code, String stateCookie, String redirectURI);
-
-	String getKeycloakURI(String redirectURI, String state);
+//	public MosipUserDto valdiateToken(String token);
+//	
+//	public AuthResponseDto logoutUser(String token);
+//	
+//	AccessTokenResponseDTO loginRedirect(String state, String sessionState, String code, String stateCookie, String redirectURI);
+//
+//	String getKeycloakURI(String redirectURI, String state);
 
 }

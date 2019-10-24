@@ -542,7 +542,7 @@ public class AuthServiceImpl implements AuthService {
 		return userStoreFactory.getDataStoreBasedOnApp(appId).getUserDetailBasedOnUid(userIds);
 	}
 
-	@Override
+/*	@Override
 	public MosipUserDto valdiateToken(String token) {
 		Map<String, String> pathparams = new HashMap<>();
 		
@@ -593,11 +593,11 @@ public class AuthServiceImpl implements AuthService {
 
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
-	/*
+	
 	 * (non-Javadoc)
 	 * 
 	 * @see io.mosip.kernel.auth.service.AuthService#logoutUser(java.lang.String)
-	 */
+	 
 	@Override
 	public AuthResponseDto logoutUser(String token) {
 		if(EmptyCheckUtils.isNullEmpty(token)) {
@@ -718,6 +718,6 @@ public class AuthServiceImpl implements AuthService {
 		uriComponentsBuilder.queryParam(KeycloakConstants.RESPONSE_TYPE, responseType);
 		uriComponentsBuilder.queryParam(KeycloakConstants.SCOPE, scope);
 		return uriComponentsBuilder.build().toString();
-	}
+	}*/
 
 }
