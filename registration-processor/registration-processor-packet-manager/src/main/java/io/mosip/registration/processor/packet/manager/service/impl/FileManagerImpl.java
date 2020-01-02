@@ -71,6 +71,8 @@ public class FileManagerImpl implements FileManager<DirectoryPathDto, InputStrea
 	private String DMZ_SERVER_PASSWORD = "registration.processor.dmz.server.password";
 
 	private String REGPROC_PPK = "registration.processor.vm.ppk";
+
+       	private final String CREATING_NEW_CONNECTION = "creating new channelSftp connection";
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -339,11 +341,11 @@ public class FileManagerImpl implements FileManager<DirectoryPathDto, InputStrea
 
 		byte[] bytedata = null;
 		try {
-			channelSftp = getSftpConnection(sftpConnectionDto);
-			try (InputStream is = channelSftp
-					.get(env.getProperty(workingDirectory.toString()) + "/" + getFileName(fileName))) {
-				bytedata = IOUtils.toByteArray(is);
-			}
+                         synchronized (this) {
+			 channelSftp = getSftpConnection(sftpConnectionDto);
+			 InputStream is = channelSftp.get(env.getProperty(workingDirectory.toString()) + "/" + getFileName(fileName));
+			 bytedata = IOUtils.toByteArray(is);
+	        }
 
 		} catch (SftpException e) {
 			regProcLogger.error(LoggerFileConstant.SESSIONID.toString(), LoggerFileConstant.REGISTRATIONID.toString(),
@@ -370,10 +372,17 @@ public class FileManagerImpl implements FileManager<DirectoryPathDto, InputStrea
 		regProcLogger.debug(LoggerFileConstant.SESSIONID.toString(), LoggerFileConstant.USERID.toString(), "",
 				"FileManagerImpl::getSftpConnection()::entry");
 		synchronized (this) {
-			if (channelSftp != null && channelSftp.isConnected() && !channelSftp.isClosed()) {
-				return channelSftp;
-			}
-		}
+                    if (channelSftp != null && channelSftp.isConnected() && !channelSftp.isClosed()) {
+			try {
+	          	    if (channelSftp.pwd().length() > 0) {
+					return channelSftp;
+                            }
+			} catch (Exception e) {
+				regProcLogger.info(LoggerFileConstant.SESSIONID.toString(), LoggerFileConstant.USERID.toString(),
+						"", "FileManagerImpl::getSftpConnection()::" + CREATING_NEW_CONNECTION);
+		        }
+                    }
+                }
 		String dmzServerPwd = env.getProperty(DMZ_SERVER_PASSWORD);
 		String regProcPPK = env.getProperty(REGPROC_PPK);
 		try {

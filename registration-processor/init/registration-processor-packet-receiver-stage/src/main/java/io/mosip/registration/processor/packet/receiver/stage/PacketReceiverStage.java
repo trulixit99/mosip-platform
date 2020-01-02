@@ -91,7 +91,7 @@ public class PacketReceiverStage extends MosipVerticleAPIManager {
 	 * deploys this verticle.
 	 */
 	public void deployVerticle() {
-		this.mosipEventBus = this.getEventBus(this, clusterManagerUrl, 50);
+		this.mosipEventBus = this.getEventBus(this, clusterManagerUrl, 100);
 	}
 
 	/** The env. */
