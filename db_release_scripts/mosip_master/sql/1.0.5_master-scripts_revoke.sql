@@ -1,14 +1,14 @@
 -- --------------------------------------------------------------------------------------------------------
 -- Database Name: mosip_master
--- Release Version 	: 1.0.2
+-- Release Version 	: 1.0.5
 -- Purpose    		: Revoking Database Alter deployement done for release in Master DB.       
 -- Create By   		: Sadanandegowda DM
--- Created Date		: 11-Dec-2019
+-- Created Date		: 03-Jan-2020
 -- 
 -- Modified Date        Modified By         Comments / Remarks
 -- -----------------------------------------------------------------------------------------------------------
 
--- ------------------------------------------------------------------------------------------------------------
+-- -----------------------------------------------------------------------------------------------------------
 \c mosip_master sysadmin
 
 ----- TRUNCATE TABLE Data and It's reference Data loaded for 1.0 release -----
@@ -26,4 +26,4 @@ DROP TABLE IF EXISTS master.daysofweek_list;
 DROP TABLE IF EXISTS master.reg_working_nonworking;
 DROP TABLE IF EXISTS master.reg_exceptional_holiday;
 
--------------------------------- END OF REVOKE ------------------------------
+-------------------------------- END OF REVOKE ---------------------------------------------------------------

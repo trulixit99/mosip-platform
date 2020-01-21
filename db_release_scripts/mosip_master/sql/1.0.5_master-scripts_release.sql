@@ -1,15 +1,16 @@
 -- ---------------------------------------------------------------------------------------------------------
 -- Database Name: mosip_master
--- Release Version 	: 1.0.2
+-- Release Version 	: 1.0.5
 -- Purpose    		: Database Alter scripts for the release for Master DB.       
 -- Create By   		: Sadanandegowda DM
--- Created Date		: 11-Dec-2019
+-- Created Date		: 03-Jan-2020
 -- 
 -- Modified Date        Modified By         Comments / Remarks
 -- -----------------------------------------------------------------------------------------------------------
 
 -- ------------------------------------------------------------------------------------------------------------
 \c mosip_master sysadmin
+
 
 \ir ../ddl/master-daysofweek_list.sql
 \ir ../ddl/master-reg_working_nonworking.sql
@@ -36,6 +37,18 @@ REFERENCES master.registration_center (id,lang_code) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
+ALTER TABLE master.registered_device_master DROP COLUMN IF EXISTS foundational_trust_signature;
+ALTER TABLE master.registered_device_master DROP COLUMN IF EXISTS foundational_trust_certificate;
+ALTER TABLE master.registered_device_master DROP COLUMN IF EXISTS dprovider_signature;
+
+ALTER TABLE master.registered_device_master_h DROP COLUMN IF EXISTS foundational_trust_signature;
+ALTER TABLE master.registered_device_master_h DROP COLUMN IF EXISTS foundational_trust_certificate;
+ALTER TABLE master.registered_device_master_h DROP COLUMN IF EXISTS dprovider_signature;
+
+ALTER TABLE master.registered_device_master ALTER COLUMN firmware TYPE character varying(256);
+
+ALTER TABLE master.registered_device_master_h ALTER COLUMN firmware TYPE character varying(256);
+
 -------------- Level 1 data load scripts ------------------------
 
 ----- TRUNCATE master.daysofweek_list TABLE Data and It's reference Data and COPY Data from CSV file -----
@@ -43,14 +56,13 @@ TRUNCATE TABLE master.daysofweek_list cascade ;
 
 \COPY master.daysofweek_list (code,name,day_seq,is_global_working,lang_code,is_active,cr_by,cr_dtimes) FROM './dml/master-daysofweek_list.csv' delimiter ',' HEADER  csv;
 
+
 ----- TRUNCATE master.template_type TABLE Data and It's reference Data and COPY Data from CSV file -----
 TRUNCATE TABLE master.template_type cascade ;
 
 \COPY master.template_type (code,descr,lang_code,is_active,cr_by,cr_dtimes) FROM './dml/master-template_type.csv' delimiter ',' HEADER  csv;
 
-
 -------------- Level 2 data load scripts ------------------------
-
 ----- TRUNCATE master.reg_working_nonworking TABLE Data and It's reference Data and COPY Data from CSV file -----
 TRUNCATE TABLE master.reg_working_nonworking cascade ;
 
